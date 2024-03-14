@@ -218,9 +218,9 @@ let showOthersVariants = ref(false)
             @click="deleteSelectedRows">
             Удалить выделенные записи
         </UIActionButton>
-        <UIActionButton v-if="user.deliveredSC1 === 'WRITE' && showButtonSC" @click="updateDeliveryRows('PVZ')">Доставить на ПВЗ
-        </UIActionButton>
         <UIActionButton v-if="user.deliveredSC1 === 'WRITE' && showButtonSC" @click="updateDeliveryRows('SC')">Доставить на сц
+        </UIActionButton>
+        <UIActionButton v-if="user.deliveredSC1 === 'WRITE' && showButtonSC" @click="updateDeliveryRows('PVZ')">Доставить на ПВЗ
         </UIActionButton>
         <UIActionButton v-if="user.issued1 === 'WRITE' && showButton" @click="showOthersVariants = !showOthersVariants">
             Выдать клиенту
