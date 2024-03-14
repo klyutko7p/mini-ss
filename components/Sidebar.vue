@@ -47,7 +47,7 @@ function formatPhoneNumber(phoneNumber: string) {
     class="fixed z-50 backdrop-blur-2xl w-full h-screen flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 max-w-[16rem] p-4 shadow-xl shadow-blue-gray-900/5 max-xl:hidden overflow-y-auto"
     v-if="isOpen">
     <div class="p-4 flex justify-between items-center">
-      <h1 class="font-bold text-xl text-secondary-color">SMARTSKLAD</h1>
+      <h1 class="font-bold text-xl text-secondary-color">MiniSS</h1>
       <Icon @click="editMenu" name="ooui:arrow-previous-ltr" size="20"
         class="hover:text-orange-300 duration-200 cursor-pointer" />
     </div>
@@ -81,14 +81,7 @@ function formatPhoneNumber(phoneNumber: string) {
         </div>
         <h1>Выкуп Клиента</h1>
       </div>
-      <div v-if="((user.role === 'ADMINISTRATOR' || user.role === 'ADMIN') || user.role === 'PVZ')" role="button" @click="router.push('/acceptance')"
-        tabindex="0"
-        class="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-orange-50 hover:bg-opacity-80 focus:bg-orange-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-orange-900 focus:text-orange-900 active:text-orange-900 outline-none">
-        <div class="grid place-items-center mr-4">
-          <Icon name="material-symbols:call-received-rounded" size="20" />
-        </div>
-        <h1>Приёмка</h1>
-      </div>
+
       <div
         v-if="(user.role === 'ADMIN' && user.username !== 'Светлана') || user.role === 'ADMINISTRATOR' || user.role === 'PVZ'"
         role="button" @click="router.push('/balance')" tabindex="0"
@@ -176,7 +169,7 @@ function formatPhoneNumber(phoneNumber: string) {
     <Icon name="material-symbols:close" class="absolute duration-200 cursor-pointer hover:text-orange-400 top-2 right-4"
       size="40" @click="editMenu" />
     <nav class="flex flex-col gap-1 min-w-[240px] p-2 font-sans text-base font-normal text-black">
-      <h1 class="text-center font-bold text-3xl text-secondary-color mb-5">SMARTSKLAD</h1>
+      <h1 class="text-center font-bold text-3xl text-secondary-color mb-5">MiniSS</h1>
       <div role="button"
         @click="user.role !== 'SORTIROVKA' ? router.push('/spreadsheets/our-ransom/info') : router.push('/spreadsheets/our-ransom')"
         tabindex="0"
@@ -206,14 +199,7 @@ function formatPhoneNumber(phoneNumber: string) {
         </div>
         <h1>Выкуп Клиента</h1>
       </div>
-      <div v-if="((user.role === 'ADMINISTRATOR' || user.role === 'ADMIN') || user.role === 'PVZ')" role="button" @click="router.push('/acceptance')"
-        tabindex="0"
-        class="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-orange-50 hover:bg-opacity-80 focus:bg-orange-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-orange-900 focus:text-orange-900 active:text-orange-900 outline-none">
-        <div class="grid place-items-center mr-4">
-          <Icon name="material-symbols:call-received-rounded" size="20" />
-        </div>
-        <h1>Приёмка</h1>
-      </div>
+
       <div
         v-if="(user.role === 'ADMIN' && user.username !== 'Светлана') || user.role === 'ADMINISTRATOR' || user.role === 'PVZ'"
         role="button" @click="router.push('/balance')" tabindex="0"

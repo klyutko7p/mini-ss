@@ -62,8 +62,6 @@ async function exportToExcel() {
     perPage.value = await 100;
 }
 
-
-
 const allSum: Ref<RowData[]> = ref([]);
 const checkedRows: Ref<number[]> = ref([]);
 
@@ -83,36 +81,6 @@ interface RowData {
     deliveredPVZ: Date | null | string | number;
     deliveredSC: Date | null | string | number;
     orderPVZ: Date | null | string | number;
-}
-
-let scanStringItem = ref('')
-
-let timeoutId: ReturnType<typeof setTimeout> | null = null;
-
-function scanItem() {
-    if (timeoutId !== null) {
-        clearTimeout(timeoutId);
-    }
-
-    timeoutId = setTimeout(async () => {
-        let scannedLink = scanStringItem.value.trim();
-        scannedLink = convertToURL(scannedLink);
-        let rowData = await storeRansom.getRansomRowsById(+scannedLink, "OurRansom");
-        handleCheckboxChange(rowData);
-        scanStringItem.value = "";
-    }, 1000);
-}
-
-function convertToURL(inputString: string) {
-    if (inputString.includes("/")) {
-        const parts = inputString.split("/");
-        const entryID = parts[parts.length - 1];
-        return entryID;
-    } else if (inputString.includes(".")) {
-        const parts = inputString.split(".");
-        const entryID = parts[parts.length - 1];
-        return entryID;
-    }
 }
 
 const handleCheckboxChange = (row: IOurRansom): void => {
@@ -182,7 +150,6 @@ let isVisiblePages = ref(true)
 
 
 onMounted(async () => {
-    focusInput()
 
     updateCurrentPageData();
 
@@ -195,14 +162,6 @@ onMounted(async () => {
 
 })
 
-const myInput = ref(null);
-
-let isScanActive = ref(false)
-function focusInput() {
-    myInput.value.focus();
-    isScanActive.value = true;
-}
-
 let showOthersVariants = ref(false)
 
 </script>
@@ -210,11 +169,6 @@ let showOthersVariants = ref(false)
 <template>
     <div class="flex items-center justify-between max-lg:block mt-10">
         <div>
-            <div class="flex items-center gap-5">
-                <UIMainButton @click="focusInput">СКАНИРОВАТЬ</UIMainButton>
-                <Icon v-if="isScanActive" name="eos-icons:bubble-loading" class="text-secondary-color" />
-            </div>
-            <input class="opacity-0" ref="myInput" autofocus v-model="scanStringItem" @input="scanItem" />
             <div class="flex items-center max-sm:flex-col max-sm:items-start gap-5 mb-5">
                 <h1 class="text-xl" v-if="user.role !== 'PVZ'">Товаров в работе: <span
                         class="text-secondary-color font-bold">{{
@@ -261,8 +215,11 @@ let showOthersVariants = ref(false)
     <div class="fixed z-40 flex flex-col gap-3 left-1/2 translate-x-[-50%] translate-y-[-50%]"
         v-if="user.dataOurRansom === 'WRITE' && checkedRows.length > 0 && user.role !== 'PVZ'">
         <UIActionButton v-if="user.role === 'ADMIN' || user.role === 'ADMINISTRATOR' && user.dataOurRansom === 'WRITE'"
-            @click="deleteSelectedRows">Удалить
-            выделенные записи</UIActionButton>
+            @click="deleteSelectedRows">
+            Удалить выделенные записи
+        </UIActionButton>
+        <UIActionButton v-if="user.deliveredSC1 === 'WRITE' && showButtonSC" @click="updateDeliveryRows('PVZ')">Доставить на ПВЗ
+        </UIActionButton>
         <UIActionButton v-if="user.deliveredSC1 === 'WRITE' && showButtonSC" @click="updateDeliveryRows('SC')">Доставить на сц
         </UIActionButton>
         <UIActionButton v-if="user.issued1 === 'WRITE' && showButton" @click="showOthersVariants = !showOthersVariants">
@@ -287,6 +244,8 @@ let showOthersVariants = ref(false)
 
     <div class="fixed z-40 flex flex-col gap-3 left-1/2 translate-x-[-50%] translate-y-[-50%]"
         v-if="user.dataOurRansom === 'WRITE' && checkedRows.length > 0 && user.role === 'PVZ'">
+        <UIActionButton v-if="user.deliveredSC1 === 'WRITE' && showButtonSC" @click="updateDeliveryRows('PVZ')">Доставить на ПВЗ
+        </UIActionButton>
         <UIActionButton v-if="user.issued1 === 'WRITE' && showButton" @click="showOthersVariants = !showOthersVariants">
             Выдать
             клиенту
@@ -421,13 +380,8 @@ let showOthersVariants = ref(false)
                             class="text-green-600 cursor-pointer hover:text-green-300 duration-200"
                             name="material-symbols:edit" size="32" />
                     </td>
-                    <th scope="row" class="border-2 font-medium underline text-secondary-color whitespace-nowrap">
-                        <NuxtLink v-if="user.role !== 'PVZ' && user.role !== 'ADMINISTRATOR'"
-                            class="cursor-pointer hover:text-orange-200 duration-200"
-                            :to="`/spreadsheets/record/1/${row.id}`">
-                            {{ row.id }}
-                        </NuxtLink>
-                        <h1 v-else>{{ row.id }}</h1>
+                    <th scope="row" class="border-2 font-medium whitespace-nowrap">
+                        <h1>{{ row.id }}</h1>
                     </th>
                     <td class="px-3 py-4 border-2 underline text-secondary-color whitespace-nowrap uppercase overflow-hidden max-w-[50px]"
                         v-if="user.clientLink1 === 'READ' || user.clientLink1 === 'WRITE'">

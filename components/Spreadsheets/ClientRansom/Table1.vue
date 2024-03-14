@@ -204,6 +204,9 @@ let showOthersVariants = ref(false)
     <UIActionButton v-if="user.role === 'ADMIN' || user.role === 'ADMINISTRATOR' && user.dataOurRansom === 'WRITE'"
       @click="deleteSelectedRows">Удалить
       выделенные записи</UIActionButton>
+      <UIActionButton v-if="user.deliveredSC1 === 'WRITE' && showButtonSC" @click="updateDeliveryRows('PVZ')">Доставить на
+        ПВЗ
+      </UIActionButton>
     <UIActionButton v-if="user.deliveredSC1 === 'WRITE' && showButtonSC" @click="updateDeliveryRows('SC')">Доставить на
       сц
     </UIActionButton>
@@ -227,6 +230,8 @@ let showOthersVariants = ref(false)
 
   <div class="fixed z-40 flex flex-col gap-3 top-44 left-1/2 translate-x-[-50%] translate-y-[-50%]"
     v-if="user.dataClientRansom === 'WRITE' && checkedRows.length > 0 && user.role === 'PVZ'">
+    <UIActionButton v-if="user.deliveredSC1 === 'WRITE' && showButtonSC" @click="updateDeliveryRows('PVZ')">Доставить на ПВЗ
+    </UIActionButton>
     <UIActionButton v-if="user.issued2 === 'WRITE' && showButton" @click="showOthersVariants = !showOthersVariants">
       Выдать
       клиенту
@@ -332,12 +337,8 @@ let showOthersVariants = ref(false)
             <Icon @click="openModal(row)" class="text-green-600 cursor-pointer hover:text-green-300 duration-200"
               name="material-symbols:edit" size="32" />
           </td>
-          <th scope="row" class="border-2 font-medium underline text-secondary-color whitespace-nowrap">
-            <NuxtLink v-if="user.role !== 'PVZ' && user.role !== 'ADMINISTRATOR'"
-              class="cursor-pointer hover:text-orange-200 duration-200" :to="`/spreadsheets/record/2/${row.id}`">
-              {{ row.id }}
-            </NuxtLink>
-            <h1 v-else>{{ row.id }}</h1>
+          <th scope="row" class="border-2 font-medium whitespace-nowrap">
+            {{ row.id }}
           </th>
           <td
             class="px-3 py-4 border-2 underline text-secondary-color whitespace-nowrap uppercase overflow-hidden max-w-[50px]"
