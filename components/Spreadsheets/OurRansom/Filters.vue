@@ -345,15 +345,6 @@ let dateFilter = ref('issued')
           </datalist>
         </div>
         <div class="grid grid-cols-2 m-3 text-center border-b-2 py-2">
-          <h1>СЦ:</h1>
-          <input type="text"
-            class="bg-transparent max-w-[150px] px-3 rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-yellow-600 sm:text-sm sm:leading-6 disabled:text-gray-400"
-            v-model="selectedOrderPVZ" list="uniqueOrderPVZ">
-          <datalist id="uniqueOrderPVZ" class="">
-            <option v-for="value in uniqueOrderPVZ" :value="value">{{ value }}</option>
-          </datalist>
-        </div>
-        <div class="grid grid-cols-2 m-3 text-center border-b-2 py-2">
           <h1>Аккаунт Заказа:</h1>
           <input type="text"
             class="bg-transparent max-w-[150px] px-3 rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-yellow-600 sm:text-sm sm:leading-6 disabled:text-gray-400"
