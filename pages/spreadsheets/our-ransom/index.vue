@@ -209,8 +209,6 @@ onMounted(async () => {
   user.value = await storeUsers.getUser();
   rows.value = await storeRansom.getRansomRows("OurRansom");
 
-  deleteIssuedRowsTimer()
-
   if (rows.value) {
     handleFilteredRows(rows.value);
   }
